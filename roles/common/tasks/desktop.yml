@@ -1,0 +1,55 @@
+- name: install dwm dependencies
+  become: yes
+  apt:
+    name: dwm
+    state: build-dep
+
+- name: download dwm
+  git:
+    repo: "{{ gh_dwm }}"
+    dest: "{{ home }}/Projects/dwm"
+
+- name: check if dwm is installed
+  stat:
+    path: "/usr/local/bin/dwm"
+  register: dwm
+
+- name: build dwm
+  make:
+    chdir: "{{ home }}/Projects/dwm"
+  when: dwm.stat.exists == False 
+
+- name: install dwm
+  become: yes
+  make:
+    chdir: "{{ home }}/Projects/dwm"
+    target: install
+  when: dwm.stat.exists == False 
+
+- name: install st dependencies
+  become: yes
+  apt:
+    name: stterm
+    state: build-dep
+
+- name: download st
+  git:
+    repo: "{{ gh_st }}"
+    dest: "{{ home }}/Projects/st"
+
+- name: check if st is installed
+  stat:
+    path: "/usr/local/bin/st"
+  register: st
+
+- name: build st
+  make:
+    chdir: "{{ home }}/Projects/st"
+  when: st.stat.exists == False 
+
+- name: install st
+  become: yes
+  make:
+    chdir: "{{ home }}/Projects/st"
+    target: install
+  when: st.stat.exists == False 

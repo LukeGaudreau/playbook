@@ -1,0 +1,10 @@
+- name: install pass
+  become: yes
+  apt:
+    name: pass
+    state: present
+
+- name: download password-store
+  git:
+    repo: "{{ bb_pass }}"
+    dest: "{{ home }}/.password-store"

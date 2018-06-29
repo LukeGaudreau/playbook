@@ -1,0 +1,8 @@
+- name: install primo dev environment
+  git:
+    repo: "{{ gh_primodev }}"
+    dest: "{{ home }}/Projects/primo-explore-devenv"
+- name: install primo customizations
+  git:
+    repo: "{{ gh_primo }}"
+    dest: "{{ home }}/Projects/primo-explore-devenv/custom/bclib_new"

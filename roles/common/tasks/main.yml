@@ -1,0 +1,11 @@
+---
+  - include: pretasks.yml
+  - include: keys.yml
+  - include: pass.yml
+  - include: xorg.yml
+  - include: desktop.yml
+  - include: emacs.yml
+  - include: packages.yml
+  - include: 3rdparty.yml
+  - include: dotfiles.yml
+  - include: work.yml

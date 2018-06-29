@@ -1,0 +1,9 @@
+- name: install git
+  become: yes
+  apt:
+    name: git
+    state: present
+- name: create Projects dir
+  file:
+    path: "{{ home }}/Projects"
+    state: directory

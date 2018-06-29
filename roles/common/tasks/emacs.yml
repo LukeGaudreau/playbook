@@ -1,0 +1,15 @@
+- name: install emacs
+  become: yes
+  apt:
+    name: emacs
+    state: present
+
+- name: install spacemacs
+  git:
+    repo: "{{ gh_spacemacs }}"
+    dest: "{{ home }}/.emacs.d"
+
+- name: install emacs config
+  git:
+    repo: "{{ gh_emacs }}"
+    dest: "{{ home }}/.spacemacs.d"

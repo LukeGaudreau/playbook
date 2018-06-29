@@ -1,0 +1,61 @@
+- name: install stow
+  become: yes
+  apt:
+    name: stow
+    state: present
+- name: download dotfiles
+  git:
+    repo: "{{ gh_dotfiles }}"
+    dest: "{{ home }}/.dotfiles"
+- name: install dotfiles
+  command: stow {{ item }} chdir="{{ home }}/.dotfiles"
+  with_items:
+    - git
+    - rofi
+    - systemd
+- name: create scripts directory
+  file:
+    path: "{{ home }}/.local/bin"
+    state: directory
+- name: download scripts
+  git:
+    repo: "{{ gh_scripts }}"
+    dest: "{{ home }}/.local/bin"
+- name: download xrandr.rb
+  git:
+    repo: "{{ gh_xrandr }}"
+    dest: "{{ home }}/Projects/xrandr.rb"
+- name: build xrandr.rb
+  command: gem build xrandr.gemspec chdir="{{ home }}/Projects/xrandr.rb"
+- name: install xrandr
+  gem:
+    name: xrandr
+    gem_source: "{{ home }}/Projects/xrandr.rb/xrandr-0.0.6.gem"
+    state: present
+- name: install pamixer dependencies
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - libpulse-dev
+    - libboost-program-options-dev
+- name: download pamixer
+  git:
+    repo: "{{ gh_pamixer }}"
+    dest: "{{ home }}/Projects/pamixer"
+- name: build pamixer
+  make:
+    chdir: "{{ home }}/Projects/pamixer"
+- name: install pamixer
+  become: yes
+  command: install -D -m755 pamixer /usr/bin/pamixer chdir="{{ home }}/Projects/pamixer"
+- name: enable system user services
+  systemd:
+    user: yes
+    daemon_reload: yes
+    name: "{{ item }}"
+    enabled: yes
+  with_items:
+    - emacs25
+    - udiskie

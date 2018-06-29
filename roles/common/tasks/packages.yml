@@ -1,0 +1,53 @@
+- name: install additional packages
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - alsa-utils
+    - apt-file
+    - breeze-gtk-theme
+    - breeze-icon-theme
+    - brightnessctl
+    - cifs-utils
+    - compton
+    - curl
+    - dmz-cursor-theme
+    - dosfstools
+    - dunst
+    - feh
+    - flameshot
+    - fonts-font-awesome
+    - fonts-lato
+    - fonts-noto-hinted
+    - fonts-noto-cjk
+    - fonts-quattrocento
+    - fonts-roboto-hinted
+    - fonts-symbola
+    - gpick
+    - gulp
+    - hsetroot
+    - hunspell-en-us
+    - i965-va-driver
+    - inkscape
+    - kde-style-breeze
+    - kde-style-breeze-qt4
+    - lxappearance
+    - network-manager
+    - network-manager-gnome
+    - ntfs-3g
+    - pulseaudio
+    - pulseaudio-utils
+    - qt5ct
+    - qutebrowser
+    - redshift
+    - remmina
+    - rofi
+    - ruby
+    - smbclient
+    - suckless-tools
+    - udiskie
+    - vim
+    - winbind
+    - xdg-utils
+    - zathura

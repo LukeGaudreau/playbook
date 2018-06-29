@@ -1,0 +1,28 @@
+- name: make sure ssh dir exists
+  file:
+    path: "{{ home }}/.ssh"
+    state: directory
+    mode: 0700
+
+- name: check if keys exist
+  stat:
+    path: "{{ home }}/.ssh/config"
+  register: keys
+
+- name: download keys, if needed
+  git:
+    repo: "{{ bb_secrets }}"
+    dest: "{{ home }}/secrets"
+  when: keys.stat.exists == False 
+
+- name: install keys
+  copy:
+    src: "{{ home }}/secrets/"
+    dest: "{{ home }}/.ssh/"
+    mode: 0600
+  when: keys.stat.exists == False 
+
+- name: remove downloaded files
+  file:
+    path: "{{ home }}/secrets"
+    state: absent

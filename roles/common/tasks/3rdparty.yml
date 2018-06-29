@@ -1,0 +1,76 @@
+- name: prefer testing to unstable
+  become: yes
+  copy:
+    src: "10-pinning.pref"
+    dest: "/etc/apt/preferences.d/10-pinning.pref"
+- name: add unstable
+  become: yes
+  apt_repository:
+    repo: deb http://deb.debian.org/debian unstable main
+    state: present
+    filename: debian-unstable
+- name: install unstable packages
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - firefox
+    - network-manager-openconnect-gnome
+    - npm
+- name: install apt key for chrome
+  become: yes
+  apt_key: 
+    id: 4CCA1EAF950CEE4AB83976DCA040830F7FAC5991
+    url: https://dl.google.com/linux/linux_signing_key.pub
+    state: present
+- name: add repository for chrome
+  become: yes
+  apt_repository:
+    repo: deb http://dl.google.com/linux/chrome/deb/ stable main
+    state: present
+    filename: google-chrome
+- name: add repository for nextcloud
+  become: yes
+  apt_repository:
+    repo: 'ppa:nextcloud-devs/client'
+    codename: bionic
+- name: install apt key for slack
+  become: yes
+  apt_key:
+    url: https://packagecloud.io/slacktechnologies/slack/gpgkey
+    state: present
+- name: add repository for slack
+  become: yes
+  apt_repository:
+    repo: deb https://packagecloud.io/slacktechnologies/slack/debian/ jessie main
+    state: present
+    filename: slack
+- name: install apt keys for spotify
+  become: yes
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: "{{ item }}"
+  with_items:
+    - 0DF731E45CE24F27EEEB1450EFDC8610341D9410
+    - 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
+- name: add repository for spotify
+  become: yes
+  apt_repository:
+    repo: deb http://repository.spotify.com stable non-free
+    state: present
+    filename: spotify
+- name: install 3rd party packages from repositories
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - google-chrome-stable
+    - nextcloud-client
+    - slack-desktop
+    - spotify-client
+- name: install 3rd party packages from debs
+  become: yes
+  apt:
+    deb: https://github.com/themix-project/oomox/releases/download/1.6.0/oomox_1.6.0.deb

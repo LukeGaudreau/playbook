@@ -1,0 +1,23 @@
+---
+username: "{{ ansible_env.USER }}"
+home: "{{ ansible_env.HOME }}"
+bitbucket_pass: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          62343536633435366661636138356437393265316464356231323234656262313537363163653265
+          3764316234656363623435613765333336396261653139340a643666656364303130336565373333
+          30636361326533633164633865373233393263616232663139343439623136613835393238373537
+          6336646461643662330a396361313031316331303233623761616332656662333633326430623136
+          33343862613664383461376665373432653061346137373538343061393531393862
+
+bb_secrets: https://infosoph:{{ bitbucket_pass }}@bitbucket.org/infosoph/secrets.git
+bb_pass: https://infosoph:{{ bitbucket_pass }}@bitbucket.org/infosoph/password-store.git
+gh_dwm: https://github.com/LukeGaudreau/dwm.git
+gh_st: https://github.com/LukeGaudreau/st.git
+gh_spacemacs: https://github.com/syl20bnr/spacemacs.git
+gh_emacs: https://github.com/LukeGaudreau/.spacemacs.d.git
+gh_dotfiles: https://github.com/LukeGaudreau/dotfiles.git
+gh_scripts: https://github.com/LukeGaudreau/scripts.git
+gh_xrandr: https://github.com/F-3r/xrandr.rb.git
+gh_primodev: https://github.com/ExLibrisGroup/primo-explore-devenv.git
+gh_primo: https://github.com/BCLibraries/bc-primo-customizations.git
+gh_pamixer: https://github.com/cdemoulins/pamixer.git
