@@ -50,7 +50,7 @@
 - name: install pamixer
   become: yes
   command: install -D -m755 pamixer /usr/bin/pamixer chdir="{{ home }}/Projects/pamixer"
-- name: enable system user services
+- name: enable systemd user services
   systemd:
     user: yes
     daemon_reload: yes
@@ -59,3 +59,13 @@
   with_items:
     - emacs25
     - udiskie
+- name: enable systemd user sockets
+  systemd:
+    user: yes
+    name: "{{ item }}"
+    enabled: yes
+  with_items:
+    - gpg-agent.socket
+    - gpg-agent-browser.socket
+    - gpg-agent-extra.socket
+    - gpg-agent-ssh.socket
