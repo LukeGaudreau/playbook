@@ -1,3 +1,6 @@
+- name: remove .profile
+  file: "{{ home }}/.profile"
+    state: absent
 - name: install stow
   become: yes
   apt:
@@ -10,9 +13,16 @@
 - name: install dotfiles
   command: stow {{ item }} chdir="{{ home }}/.dotfiles"
   with_items:
+    - bash
+    - compton
+    - dunst
+    - gcalcli
     - git
+    - gpg
+    - qutebrowser
     - rofi
     - systemd
+    - xorg
 - name: create scripts directory
   file:
     path: "{{ home }}/.local/bin"
